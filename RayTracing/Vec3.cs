@@ -114,6 +114,24 @@ namespace RayTracing
             if (Dot(inUnitySphere, normal) > 0.0) return inUnitySphere;    // In the same hemisphere as the normal
             else return -inUnitySphere;
         }
+
+        /// <summary>
+        /// Returns <see langword="true"/> if the <see cref="Vec3"/> is close to zero in all dimensions.
+        /// </summary>
+        /// <returns></returns>
+        public bool NearZero()
+        {
+            double s = 1E-8;
+            return (Math.Abs(X) < s) && (Math.Abs(Y) < s) && (Math.Abs(Z) < s);
+        }
+
+        /// <summary>
+        /// Returns a reflected <see cref="Vec3"/> based on a given normal <see cref="Vec3"/> <paramref name="n"/>.
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static Vec3 Reflect(Vec3 v, Vec3 n) => v - 2 * Dot(v, n) * n;
     }
 }
 

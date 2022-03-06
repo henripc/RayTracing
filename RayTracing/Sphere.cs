@@ -9,17 +9,20 @@ namespace RayTracing
     {
         public Point3 Center { get; set; }
         public double Radius { get; set; }
+        public Material Material { get; set; }
 
         public Sphere()
         {
             Center = new Point3(0, 0, 0);
             Radius = 0;
+            Material = new Metal(new Color(), 0);
         }
 
-        public Sphere(Point3 cen, double r)
+        public Sphere(Point3 cen, double r, Material m)
         {
             Center = cen;
             Radius = r;
+            Material = m;
         }
 
         public override bool Hit(Ray r, double tMin, double tMax, HitRecord rec)
@@ -45,6 +48,7 @@ namespace RayTracing
             rec.p = r.At(rec.t);
             Vec3 outwardNormal = (rec.p - Center) / Radius;
             rec.SetFaceNormal(r, outwardNormal);
+            rec.mat = Material;
 
             return true;
         }

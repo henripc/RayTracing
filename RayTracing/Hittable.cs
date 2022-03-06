@@ -1,7 +1,7 @@
 ﻿namespace RayTracing
 {
     /// <summary>
-    /// Abstract class that represents a hittable object.
+    /// Abstract <see langword="class"/> that represents a hittable object.
     /// </summary>
     public abstract class Hittable
     {

@@ -4,6 +4,7 @@
     {
         public Point3 p;
         public Vec3 normal;
+        public Material mat;
         public double t;
         public bool frontFace;
 
@@ -11,6 +12,7 @@
         {
             p = new Point3();
             normal = new Vec3();
+            mat = new Metal(new Color(), 0);   // Initializes material to Metal (no reason)
             t = 0;
             frontFace = false;
         }

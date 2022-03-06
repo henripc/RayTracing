@@ -10,8 +10,12 @@ static Color RayColor(Ray r, Hittable world, int depth)
 
     if (world.Hit(r, 0.001, Utility.INFINITY, ref rec))
     {
-        Point3 target = rec.p + rec.normal + Vec3.RandomUnityVector();    
-        return 0.5 * RayColor(new Ray(rec.p, target - rec.p), world, depth - 1);
+        var scattered = new Ray();
+        var attenuation = new Color();
+
+        if (rec.mat.Scatter(r, rec, ref attenuation, ref scattered)) return attenuation * RayColor(scattered, world, depth - 1);
+
+        return new Color(0, 0, 0);
     }
 
     Vec3 unitDirection = Vec3.UnitVector(r.Direction);
@@ -31,8 +35,16 @@ const int maxDepth = 50;
 // World
 
 var world = new HittableList();
-world.Add(new Sphere(new Point3(0, 0, -1), 0.5));
-world.Add(new Sphere(new Point3(0, -100.5, -1), 100));
+
+var materialGround = new Lambertian(new Color(0.8, 0.8, 0));
+var materialCenter = new Lambertian(new Color(0.7, 0.3, 0.3));
+var materialLeft   = new Metal(new Color(0.8, 0.8, 0.8), 0.3);
+var materialRight  = new Metal(new Color(0.8, 0.6, 0.2), 1);
+
+world.Add(new Sphere(new Point3(0, -100.5, -1), 100, materialGround));
+world.Add(new Sphere(new Point3(0, 0, -1), 0.5, materialCenter));
+world.Add(new Sphere(new Point3(-1, 0, -1), 0.5, materialLeft));
+world.Add(new Sphere(new Point3(1, 0, -1), 0.5, materialRight));
 
 // Camera
 var cam = new Camera();
