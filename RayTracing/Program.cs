@@ -37,13 +37,14 @@ const int maxDepth = 50;
 var world = new HittableList();
 
 var materialGround = new Lambertian(new Color(0.8, 0.8, 0));
-var materialCenter = new Lambertian(new Color(0.7, 0.3, 0.3));
-var materialLeft   = new Metal(new Color(0.8, 0.8, 0.8), 0.3);
-var materialRight  = new Metal(new Color(0.8, 0.6, 0.2), 1);
+var materialCenter = new Lambertian(new Color(0.1, 0.2, 0.5));
+var materialLeft   = new Dielectric(1.5);
+var materialRight  = new Metal(new Color(0.8, 0.6, 0.2), 0);
 
 world.Add(new Sphere(new Point3(0, -100.5, -1), 100, materialGround));
 world.Add(new Sphere(new Point3(0, 0, -1), 0.5, materialCenter));
 world.Add(new Sphere(new Point3(-1, 0, -1), 0.5, materialLeft));
+world.Add(new Sphere(new Point3(-1, 0, -1), -0.4, materialLeft));
 world.Add(new Sphere(new Point3(1, 0, -1), 0.5, materialRight));
 
 // Camera

@@ -132,6 +132,22 @@ namespace RayTracing
         /// <param name="n"></param>
         /// <returns></returns>
         public static Vec3 Reflect(Vec3 v, Vec3 n) => v - 2 * Dot(v, n) * n;
+
+        /// <summary>
+        /// Returns a refracted <see cref="Vec3"/>.
+        /// </summary>
+        /// <param name="incident"></param>
+        /// <param name="n"></param>
+        /// <param name="etaIOverEtat"></param>
+        /// <returns></returns>
+        public static Vec3 Refract(Vec3 incident, Vec3 n, double etaIOverEtat)
+        {
+            double cosTheta = Math.Min(Dot(-incident, n), 1);
+            Vec3 rOutPerp = etaIOverEtat * (incident + cosTheta * n);
+            Vec3 rOutParallel = -Math.Sqrt(Math.Abs(1 - rOutPerp.LengthSquared())) * n;
+
+            return rOutPerp + rOutParallel;
+        }
     }
 }
 
