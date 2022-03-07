@@ -1,6 +1,61 @@
 ﻿using System;
 using RayTracing;
 
+static HittableList RandomScene()
+{
+    var world = new HittableList();
+
+    var materialGround = new Lambertian(new Color(0.5, 0.5, 0.5));
+    world.Add(new Sphere(new Point3(0, -1000, 0), 1000, materialGround));
+
+    for (int a = -11; a < 11; a++)
+    {
+        for (int b = -11; b < 11; b++)
+        {
+            double chooseMat = Utility.RandomDouble();
+            var center = new Point3(a + 0.9 * Utility.RandomDouble(), 0.2, b + 0.9 * Utility.RandomDouble());
+
+            if ((center - new Point3(4, 0.2, 0)).Length() > 0.9)
+            {
+                Material sphereMaterial;
+
+                if (chooseMat < 0.8)
+                {
+                    // diffuse
+                    var albedo = Color.Random() * Color.Random();
+                    sphereMaterial = new Lambertian(albedo);
+                    world.Add(new Sphere(center, 0.2, sphereMaterial));
+                }
+                else if (chooseMat < 0.95)
+                {
+                    // metal
+                    var albedo = Color.Random(0.5, 1);
+                    double fuzz = Utility.RandomDouble(0, 0.5);
+                    sphereMaterial = new Metal(albedo, fuzz);
+                    world.Add(new Sphere(center, 0.2, sphereMaterial));
+                }
+                else
+                {
+                    // glass
+                    sphereMaterial = new Dielectric(1.5);
+                    world.Add(new Sphere(center, 0.2, sphereMaterial));
+                }
+            }
+        }
+    }
+
+    var material1 = new Dielectric(1.5);
+    world.Add(new Sphere(new Point3(0, 1, 0), 1, material1));
+
+    var material2 = new Lambertian(new Color(0.4, 0.2, 0.1));
+    world.Add(new Sphere(new Point3(-4, 1, 0), 1, material2));
+
+    var material3 = new Metal(new Color(0.7, 0.6, 0.5), 0);
+    world.Add(new Sphere(new Point3(4, 1, 0), 1, material3));
+
+    return world;
+}
+
 static Color RayColor(Ray r, Hittable world, int depth)
 {
     var rec = new HitRecord();
@@ -26,29 +81,23 @@ static Color RayColor(Ray r, Hittable world, int depth)
 
 // Image
 
-const double aspectRatio  = 16.0 / 9.0;
-const int imageWidth      = 400;
+const double aspectRatio  = 3.0 / 2.0;
+const int imageWidth      = 1200;
 const int imageHeight     = (int)(imageWidth / aspectRatio);
 const int samplesPerPixel = 100;
 const int maxDepth        = 50;
 
 // World
-
-var world = new HittableList();
-
-var materialGround = new Lambertian(new Color(0.8, 0.8, 0));
-var materialCenter = new Lambertian(new Color(0.1, 0.2, 0.5));
-var materialLeft   = new Dielectric(1.5);
-var materialRight  = new Metal(new Color(0.8, 0.6, 0.2), 0);
-
-world.Add(new Sphere(new Point3(0, -100.5, -1), 100, materialGround));
-world.Add(new Sphere(new Point3(0, 0, -1), 0.5, materialCenter));
-world.Add(new Sphere(new Point3(-1, 0, -1), 0.5, materialLeft));
-world.Add(new Sphere(new Point3(-1, 0, -1), -0.45, materialLeft));
-world.Add(new Sphere(new Point3(1, 0, -1), 0.5, materialRight));
+var world = RandomScene();
 
 // Camera
-var cam = new Camera(new Point3(-2, 2, 1), new Point3(0, 0, -1), new Vec3(0, 1, 0), 20, aspectRatio);
+var lookFrom       = new Point3(13, 2, 3);
+var lookAt         = new Point3(0, 0, 0);
+var vUp            = new Vec3(0, 1, 0);
+double distToFocus = 10;
+double aperture    = 0.1;
+
+var cam = new Camera(lookFrom, lookAt, vUp, 20, aspectRatio, aperture, distToFocus);
 
 // Render
 

@@ -148,6 +148,16 @@ namespace RayTracing
 
             return rOutPerp + rOutParallel;
         }
+
+        public static Vec3 RandomInUnitDisk()
+        {
+            while (true)
+            {
+                var p = new Vec3(Utility.RandomDouble(-1, 1), Utility.RandomDouble(-1, 1), 0);
+                if (p.LengthSquared() >= 1) continue;
+                return p;
+            }
+        }
     }
 }
 

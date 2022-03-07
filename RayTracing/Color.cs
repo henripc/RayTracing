@@ -38,5 +38,24 @@ namespace RayTracing
         public static Color operator *(double t, Color v) => new Color(t * v.X, t * v.Y, t * v.Z);
         public static Color operator *(Color v, double t) => t * v;
         public static Color operator /(Color v, double t) => (1 / t) * v;
+
+        // Utility Methods
+
+        /// <summary>
+        /// Creates a <see cref="Color"/> with random entries in the range [0, 1).
+        /// </summary>
+        /// <returns></returns>
+        public static new Color Random() => new Color(Utility.RandomDouble(), Utility.RandomDouble(), Utility.RandomDouble());
+
+        /// <summary>
+        /// Creates a <see cref="Color"/> with random entries in the range [<paramref name="min"/>, <paramref name="max"/>).
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static new Color Random(double min, double max)
+        {
+            return new Color(Utility.RandomDouble(min, max), Utility.RandomDouble(min, max), Utility.RandomDouble(min, max));
+        }
     }
 }
