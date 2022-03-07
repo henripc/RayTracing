@@ -26,11 +26,11 @@ static Color RayColor(Ray r, Hittable world, int depth)
 
 // Image
 
-const double aspectRatio = 16.0 / 9.0;
-const int imageWidth  = 400;
-const int imageHeight = (int)(imageWidth / aspectRatio);
+const double aspectRatio  = 16.0 / 9.0;
+const int imageWidth      = 400;
+const int imageHeight     = (int)(imageWidth / aspectRatio);
 const int samplesPerPixel = 100;
-const int maxDepth = 50;
+const int maxDepth        = 50;
 
 // World
 
@@ -44,11 +44,11 @@ var materialRight  = new Metal(new Color(0.8, 0.6, 0.2), 0);
 world.Add(new Sphere(new Point3(0, -100.5, -1), 100, materialGround));
 world.Add(new Sphere(new Point3(0, 0, -1), 0.5, materialCenter));
 world.Add(new Sphere(new Point3(-1, 0, -1), 0.5, materialLeft));
-world.Add(new Sphere(new Point3(-1, 0, -1), -0.4, materialLeft));
+world.Add(new Sphere(new Point3(-1, 0, -1), -0.45, materialLeft));
 world.Add(new Sphere(new Point3(1, 0, -1), 0.5, materialRight));
 
 // Camera
-var cam = new Camera();
+var cam = new Camera(new Point3(-2, 2, 1), new Point3(0, 0, -1), new Vec3(0, 1, 0), 20, aspectRatio);
 
 // Render
 
