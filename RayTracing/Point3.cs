@@ -9,7 +9,14 @@
         public Point3(double e0, double e1, double e2) : base(e0, e1, e2) { }
 
         // Defining operators for Point3 Class
-        public static Point3 operator -(Point3 p) => new Point3(-p.X, -p.Y, -p.Z);
+        public static Point3 operator -(Point3 v)
+        {
+            v.X = -v.X;
+            v.Y = -v.Y;
+            v.Z = -v.Z;
+
+            return v;
+        }
         public static Point3 operator +(Point3 p, Vec3 v) => new Point3(p.X + v.X, p.Y + v.Y, p.Z + v.Z);
         public static Point3 operator +(Point3 u, Point3 v) => new Point3(u.X + v.X, u.Y + v.Y, u.Z + v.Z);
         public static Vec3 operator -(Point3 u, Point3 v) => new Vec3(u.X - v.X, u.Y - v.Y, u.Z - v.Z);

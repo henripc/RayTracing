@@ -7,14 +7,17 @@ namespace RayTracing
     /// </summary>
     public class Vec3
     {
-        public double[] e;
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
 
-        public Vec3() => e = new double[3] { 0, 0, 0 };
-        public Vec3(double e0, double e1, double e2) => e = new double[3] { e0, e1, e2 };
-
-        public double X => e[0];
-        public double Y => e[1];
-        public double Z => e[2];
+        public Vec3() => X = Y = Z = 0;
+        public Vec3(double e0, double e1, double e2)
+        {
+            X = e0;
+            Y = e1;
+            Z = e2;
+        }
 
         public double LengthSquared() => X * X + Y * Y + Z * Z;
 
@@ -27,10 +30,17 @@ namespace RayTracing
         public override string ToString() => $"{ X } { Y } { Z }";
 
         // Defining operators for Vec3 Class
-        public static Vec3 operator -(Vec3 v) => new Vec3(-v.X, -v.Y, -v.Z);
+        public static Vec3 operator -(Vec3 v)
+        {
+            v.X = -v.X;
+            v.Y = -v.Y;
+            v.Z = -v.Z;
+
+            return v;
+        }
 
         // Define the indexer to allow Vec3 to use [] notation => Vec3[i] = e[i]
-        public double this[int i] => e[i];
+        //public double this[int i] => e[i];
 
         public static Vec3 operator +(Vec3 u, Vec3 v) => new Vec3(u.X + v.X, u.Y + v.Y, u.Z + v.Z);
         public static Vec3 operator -(Vec3 u, Vec3 v) => new Vec3(u.X - v.X, u.Y - v.Y, u.Z - v.Z);
