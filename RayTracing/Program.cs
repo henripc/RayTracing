@@ -56,7 +56,7 @@ static HittableList RandomScene()
     return world;
 }
 
-static Color RayColor(Ray r, ref HittableList world, int depth)
+static Color RayColor(ref Ray r, ref HittableList world, int depth)
 {
     var rec = new HitRecord();
 
@@ -68,7 +68,7 @@ static Color RayColor(Ray r, ref HittableList world, int depth)
         var scattered = new Ray();
         var attenuation = new Color();
 
-        if (rec.mat.Scatter(r, rec, ref attenuation, ref scattered)) return attenuation * RayColor(scattered, ref world, depth - 1);
+        if (rec.mat.Scatter(r, rec, ref attenuation, ref scattered)) return attenuation * RayColor(ref scattered, ref world, depth - 1);
 
         return new Color(0, 0, 0);
     }
@@ -113,7 +113,7 @@ for (int j = imageHeight - 1; j >= 0; j--)
             double u = (i + Utility.RandomDouble()) / (imageWidth - 1);
             double v = (j + Utility.RandomDouble()) / (imageHeight - 1);
             Ray r = cam.GetRay(u, v);
-            pixelColor += RayColor(r, ref world, maxDepth);
+            pixelColor += RayColor(ref r, ref world, maxDepth);
         }
         Color.WriteColor(pixelColor, samplesPerPixel);
     }
