@@ -17,3 +17,12 @@ Execution time (for the image below): **42.01 minutes**.<br>
 Aspect ratio: 3:2 | Image Width: 1200px | Samples per pixel: 100 | Max ray bounce: 50 | Number of spheres: 488
 
 <img src="./image_final_first_opt.png" width="800">
+
+---
+
+Second round of optimizations.
+
+Execution time (for the image below): **38.29 minutes**.<br>
+Aspect ratio: 3:2 | Image Width: 1200px | Samples per pixel: 100 | Max ray bounce: 50 | Number of spheres: 488
+
+<img src="./image_final_second_opt.png" width="800">
