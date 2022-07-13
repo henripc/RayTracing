@@ -26,6 +26,11 @@ namespace RayTracing
 
         // Functions
 
+        /// <summary>
+        /// Convert a given angle in degrees to radians.
+        /// </summary>
+        /// <param name="degrees"></param>
+        /// <returns></returns>
         public static double DegreesToRadians(double degrees) => degrees * PI / 180.0;
 
         /// <summary>
