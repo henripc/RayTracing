@@ -1,8 +1,20 @@
-﻿namespace RayTracing
+﻿using Point3 = RayTracing.Vec3;
+
+namespace RayTracing
 {
+    /// <summary>
+    /// Represents a ray of light.
+    /// </summary>
     public class Ray
     {
+        /// <summary>
+        /// Point of origin of the <see cref="Ray"/>
+        /// </summary>
         public Point3 Origin { get; set; }
+
+        /// <summary>
+        /// Direction of the <see cref="Ray"/>
+        /// </summary>
         public Vec3 Direction { get; set; }
 
         public Ray()
