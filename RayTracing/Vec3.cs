@@ -54,7 +54,6 @@ namespace RayTracing
         /// </summary>
         /// <param name="u"></param>
         /// <param name="v"></param>
-        /// <returns>The dot product between <paramref name="u"/> and <paramref name="v"/></returns>
         public static double Dot(Vec3 u, Vec3 v) => u.X * v.X + u.Y * v.Y + u.Z * v.Z;
 
         /// <summary>
@@ -94,7 +93,7 @@ namespace RayTracing
         }
 
         /// <summary>
-        /// Static method that return a random <see cref="Vec3"/> that is inside of a unity sphere.
+        /// Creates a random <see cref="Vec3"/> that is inside of a unity sphere.
         /// </summary>
         /// <returns></returns>
         public static Vec3 RandomInUnitySphere()
@@ -126,7 +125,7 @@ namespace RayTracing
         }
 
         /// <summary>
-        /// Returns <see langword="true"/> if the <see cref="Vec3"/> is close to zero in all dimensions.
+        /// Returns <see langword="true"/> if the <see cref="Vec3"/> is close to zero in all dimensions, <see langword="false"/> otherwise.
         /// </summary>
         /// <returns></returns>
         public bool NearZero()
@@ -159,6 +158,10 @@ namespace RayTracing
             return rOutPerp + rOutParallel;
         }
 
+        /// <summary>
+        /// Creates a random <see cref="Vec3"/> that is inside of a unity disk.
+        /// </summary>
+        /// <returns></returns>
         public static Vec3 RandomInUnitDisk()
         {
             while (true)
@@ -170,7 +173,3 @@ namespace RayTracing
         }
     }
 }
-
-// Type aliases for vec3
-//using point3 = vec3;	    // 3D point
-//using color = vec3;		// RGB color
