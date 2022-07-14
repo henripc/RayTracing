@@ -24,7 +24,6 @@ namespace RayTracing
         /// <summary>
         /// Length (norm-2) of the vector.
         /// </summary>
-        /// <returns>The length of the calling <see cref="Vec3"/></returns>
         public double Length() => Math.Sqrt(LengthSquared());
 
         public override string ToString() => $"{ X } { Y } { Z }";
