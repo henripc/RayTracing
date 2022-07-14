@@ -21,7 +21,7 @@ namespace RayTracing
             attenuation.X = 1;
             attenuation.Y = 1;
             attenuation.Z = 1;
-            //attenuation = new Color(1, 1, 1);
+
             double refractionRatio = rec.frontFace ? (1 / IndexOfRefraction) : IndexOfRefraction;
 
             Vec3 unitDirection = Vec3.UnitVector(rIn.Direction);
@@ -32,9 +32,13 @@ namespace RayTracing
             Vec3 direction;
 
             if (cannotRefract || Reflectance(cosTheta, refractionRatio) > Utility.RandomDouble())
+            {
                 direction = Vec3.Reflect(unitDirection, rec.normal);
+            }
             else
+            {
                 direction = Vec3.Refract(unitDirection, rec.normal, refractionRatio);
+            }
 
             var ray = new Ray(rec.p, direction);
             scattered.Origin = ray.Origin;
