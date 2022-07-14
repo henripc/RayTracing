@@ -40,17 +40,17 @@ namespace RayTracing
         {
             double theta          = Utility.DegreesToRadians(vfov);
             double h              = Math.Tan(theta / 2);
-            double viewportHeight = 2.0 * h;
+            double viewportHeight = 2 * h;
             double viewportWidth  = aspectRatio * viewportHeight;
 
             _w = Vec3.UnitVector(lookFrom - lookAt);
             _u = Vec3.UnitVector(Vec3.Cross(vUp, _w));
             _v = Vec3.Cross(_w, _u);
 
-            _origin               = lookFrom;
-            _horizontal           = focusDist * viewportWidth * _u;
-            _vertical             = focusDist * viewportHeight * _v;
-            _lowerLeftCorner      = _origin - _horizontal/2 - _vertical/2 - focusDist * _w;
+            _origin          = lookFrom;
+            _horizontal      = focusDist * viewportWidth * _u;
+            _vertical        = focusDist * viewportHeight * _v;
+            _lowerLeftCorner = _origin - _horizontal/2 - _vertical/2 - focusDist * _w;
 
             _lensRadius = aperture / 2;
         }
