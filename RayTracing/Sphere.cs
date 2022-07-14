@@ -1,31 +1,33 @@
 ﻿using System;
 
+using Point3 = RayTracing.Vec3;
+
 namespace RayTracing
 {
     /// <summary>
     /// Represents a sphere object.
     /// </summary>
-    public class Sphere : Hittable
+    public class Sphere : IHittable
     {
         public Point3 Center { get; set; }
         public double Radius { get; set; }
-        public Material Material { get; set; }
+        public IMaterial? Material { get; set; }
 
         public Sphere()
         {
             Center = new Point3(0, 0, 0);
             Radius = 0;
-            Material = new Metal(new Color(), 0);
+            Material = null;
         }
 
-        public Sphere(Point3 cen, double r, Material m)
+        public Sphere(Point3 center, double radius, IMaterial material)
         {
-            Center = cen;
-            Radius = r;
-            Material = m;
+            Center = center;
+            Radius = radius;
+            Material = material;
         }
 
-        public override bool Hit(Ray r, double tMin, double tMax, HitRecord rec)
+        public bool Hit(Ray r, double tMin, double tMax, HitRecord rec)
         {
             Vec3 oc = r.Origin - Center;
             double a = r.Direction.LengthSquared();
