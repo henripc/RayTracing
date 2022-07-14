@@ -1,10 +1,15 @@
-﻿namespace RayTracing
+﻿using Point3 = RayTracing.Vec3;
+
+namespace RayTracing
 {
+    /// <summary>
+    /// Represents a record of a <see cref="Ray"/> hitting a object.
+    /// </summary>
     public class HitRecord
     {
         public Point3 p;
         public Vec3 normal;
-        public Material mat;
+        public IMaterial? mat;
         public double t;
         public bool frontFace;
 
@@ -12,7 +17,7 @@
         {
             p = new Point3();
             normal = new Vec3();
-            mat = new Metal(new Color(), 0);   // Initializes material to Metal (no reason)
+            mat = null;
             t = 0;
             frontFace = false;
         }
