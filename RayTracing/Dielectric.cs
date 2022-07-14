@@ -1,25 +1,27 @@
 ﻿using System;
 
+using Color = RayTracing.Vec3;
+
 namespace RayTracing
 {
     /// <summary>
-    /// Class that represents a <see cref="Dielectric"/> material.
+    /// Represents a "clear" material (glass, diamonds etc...).
     /// </summary>
-    public class Dielectric : Material
+    public class Dielectric : IMaterial
     {
         /// <summary>
         /// Represents the index of refraction.
         /// </summary>
         public double IndexOfRefraction { get; set; }
 
-        public Dielectric(double indexOfRefraction)
-        {
-            IndexOfRefraction = indexOfRefraction;
-        }
+        public Dielectric(double indexOfRefraction) => IndexOfRefraction = indexOfRefraction;
 
-        public override bool Scatter(Ray rIn, HitRecord rec, ref Color attenuation, ref Ray scattered)
+        public bool Scatter(Ray rIn, HitRecord rec, Color attenuation, Ray scattered)
         {
-            attenuation = new Color(1, 1, 1);
+            attenuation.X = 1;
+            attenuation.Y = 1;
+            attenuation.Z = 1;
+            //attenuation = new Color(1, 1, 1);
             double refractionRatio = rec.frontFace ? (1 / IndexOfRefraction) : IndexOfRefraction;
 
             Vec3 unitDirection = Vec3.UnitVector(rIn.Direction);
@@ -34,7 +36,9 @@ namespace RayTracing
             else
                 direction = Vec3.Refract(unitDirection, rec.normal, refractionRatio);
 
-            scattered = new Ray(rec.p, direction);
+            var ray = new Ray(rec.p, direction);
+            scattered.Origin = ray.Origin;
+            scattered.Direction = ray.Direction;
 
             return true;
         }

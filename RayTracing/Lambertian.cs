@@ -1,6 +1,11 @@
-﻿namespace RayTracing
+﻿using Color = RayTracing.Vec3;
+
+namespace RayTracing
 {
-    public class Lambertian : Material
+    /// <summary>
+    /// Represents a diffuse material.
+    /// </summary>
+    public class Lambertian : IMaterial
     {
         public Color Albedo { get; set; }
 
@@ -9,15 +14,21 @@
             Albedo = a;
         }
 
-        public override bool Scatter(Ray rIn, HitRecord rec, ref Color attenuation, ref Ray scattered)
+        public bool Scatter(Ray rIn, HitRecord rec, Color attenuation, Ray scattered)
         {
             Vec3 scatterDirection = rec.normal + Vec3.RandomUnityVector();
 
             // Catch degenerate scatter direction
             if (scatterDirection.NearZero()) scatterDirection = rec.normal;
 
-            scattered = new Ray(rec.p, scatterDirection);
-            attenuation = Albedo;
+            var ray = new Ray(rec.p, scatterDirection);
+            scattered.Origin = ray.Origin;
+            scattered.Direction = ray.Direction;
+
+            attenuation.X = Albedo.X;
+            attenuation.Y = Albedo.Y;
+            attenuation.Z = Albedo.Z;
+            //attenuation = Albedo;
 
             return true;
         }

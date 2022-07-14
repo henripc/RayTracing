@@ -1,6 +1,11 @@
-﻿namespace RayTracing
+﻿using Color = RayTracing.Vec3;
+
+namespace RayTracing
 {
-    public class Metal : Material
+    /// <summary>
+    /// Represents a metal material.
+    /// </summary>
+    public class Metal : IMaterial
     {
         public Color Albedo { get; set; }
         public double Fuzz { get; set; }
@@ -11,11 +16,18 @@
             Fuzz = f < 1 ? f : 1;
         }
 
-        public override bool Scatter(Ray rIn, HitRecord rec, ref Color attenuation, ref Ray scattered)
+        public bool Scatter(Ray rIn, HitRecord rec, Color attenuation, Ray scattered)
         {
             Vec3 reflected = Vec3.Reflect(Vec3.UnitVector(rIn.Direction), rec.normal);
-            scattered = new Ray(rec.p, reflected + Fuzz*Vec3.RandomInUnitySphere());
-            attenuation = Albedo;
+            //scattered = new Ray(rec.p, reflected + Fuzz*Vec3.RandomInUnitySphere());
+            var ray = new Ray(rec.p, reflected + Fuzz * Vec3.RandomInUnitySphere());
+            scattered.Origin = ray.Origin;
+            scattered.Direction = ray.Direction;
+
+            attenuation.X = Albedo.X;
+            attenuation.Y = Albedo.Y;
+            attenuation.Z = Albedo.Z;
+            //attenuation = Albedo;
 
             return Vec3.Dot(scattered.Direction, rec.normal) > 0;
         }
