@@ -3,22 +3,37 @@
 namespace RayTracing
 {
     /// <summary>
-    /// Stores a list of <see cref="Hittable"/> objects.
+    /// <see langword="class"/> that represents a list of <see cref="IHittable"/> objects.
     /// </summary>
-    public class HittableList : Hittable
+    public class HittableList : IHittable
     {
         /// <summary>
-        /// The List of <see cref="Hittable"/> objects.
+        /// The List of <see cref="IHittable"/> objects.
         /// </summary>
-        public List<Hittable> Objects { get; set; }
+        public ICollection<IHittable> Objects { get; set; }
 
-        public HittableList() => Objects = new List<Hittable>();
-        public HittableList(Hittable obj) => Objects = new List<Hittable>() { obj };
+        /// <summary>
+        /// Instanciate a new empty list of <see cref="IHittable"/> objects.
+        /// </summary>
+        public HittableList() => Objects = new List<IHittable>();
 
+        /// <summary>
+        /// Instanciate a new list of <see cref="IHittable"/> objects with the given object.
+        /// </summary>
+        public HittableList(IHittable obj) => Objects = new List<IHittable>() { obj };
+
+        /// <summary>
+        /// Remove all objects from the list.
+        /// </summary>
         public void Clear() => Objects.Clear();
-        public void Add(Hittable obj) => Objects.Add(obj);
 
-        public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord rec)
+        /// <summary>
+        /// Add the object to the list.
+        /// </summary>
+        /// <param name="obj"></param>
+        public void Add(IHittable obj) => Objects.Add(obj);
+
+        public bool Hit(Ray r, double tMin, double tMax, HitRecord rec)
         {
             var tempRec = new HitRecord();
             bool hitAnything = false;
@@ -30,7 +45,12 @@ namespace RayTracing
                 {
                     hitAnything = true;
                     closestSoFar = tempRec.t;
-                    rec = tempRec;
+
+                    rec.p = tempRec.p;
+                    rec.normal = tempRec.normal;
+                    rec.mat = tempRec.mat;
+                    rec.t = tempRec.t;
+                    rec.frontFace = tempRec.frontFace;
                 }
             }
 
