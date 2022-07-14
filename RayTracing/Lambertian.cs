@@ -28,7 +28,6 @@ namespace RayTracing
             attenuation.X = Albedo.X;
             attenuation.Y = Albedo.Y;
             attenuation.Z = Albedo.Z;
-            //attenuation = Albedo;
 
             return true;
         }
