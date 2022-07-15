@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using RayTracing;
 using System.Threading.Tasks;
 using System.Linq;
+using RayTracing;
 
 using Point3 = RayTracing.Vec3;
 using Color = RayTracing.Vec3;
@@ -92,9 +92,9 @@ static Color RayColor(Ray r, HittableList world, int depth)
 // Image
 
 const double aspectRatio  = 3.0 / 2.0;
-const int imageWidth      = 400;
+const int imageWidth      = 1200;
 const int imageHeight     = (int)(imageWidth / aspectRatio);
-const int samplesPerPixel = 100;
+const int samplesPerPixel = 500;
 const int maxDepth        = 50;
 
 // World
@@ -118,17 +118,6 @@ for (int j = imageHeight - 1; j >= 0; j--)
     Console.Error.WriteLine($"Scanlines remaining: {j}");
     for (int i = 0; i < imageWidth; i++)
     {
-        // Single Thread
-        //var pixelColor = new Color(0, 0, 0);
-        //for (int s = 0; s < samplesPerPixel; s++)
-        //{
-        //    double u = (i + Utility.RandomDouble()) / (imageWidth - 1);
-        //    double v = (j + Utility.RandomDouble()) / (imageHeight - 1);
-        //    Ray r = cam.GetRay(u, v);
-        //    pixelColor += RayColor(r, world, maxDepth);
-        //}
-
-        // Parallel
         var taskResult = await Task.WhenAll(Enumerable.Range(0, samplesPerPixel).Select(_ =>
         {
             return Task.Run(() =>
