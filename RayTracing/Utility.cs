@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 
 namespace RayTracing
 {
@@ -45,7 +45,7 @@ namespace RayTracing
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <returns></returns>
-        public static double RandomDouble(double min, double max) => RandomNumber.NextDouble() * (max - min) + min;
+        public static double RandomDouble(double min, double max) => RandomDouble() * (max - min) + min;
 
         /// <summary>
         /// Clamps the <paramref name="x"/> value to the range [<paramref name="min"/>, <paramref name="max"/>].
