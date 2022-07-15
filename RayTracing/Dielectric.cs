@@ -25,7 +25,7 @@ namespace RayTracing
             double refractionRatio = rec.frontFace ? (1 / IndexOfRefraction) : IndexOfRefraction;
 
             Vec3 unitDirection = Vec3.UnitVector(rIn.Direction);
-            double cosTheta = Math.Min(Vec3.Dot(-unitDirection, rec.normal), 1);
+            double cosTheta = Math.Min(Vec3.Dot(-unitDirection, rec.normal!), 1);
             double sinTheta = Math.Sqrt(1 - cosTheta * cosTheta);
 
             bool cannotRefract = refractionRatio * sinTheta > 1;
@@ -33,14 +33,14 @@ namespace RayTracing
 
             if (cannotRefract || Reflectance(cosTheta, refractionRatio) > Utility.RandomDouble())
             {
-                direction = Vec3.Reflect(unitDirection, rec.normal);
+                direction = Vec3.Reflect(unitDirection, rec.normal!);
             }
             else
             {
-                direction = Vec3.Refract(unitDirection, rec.normal, refractionRatio);
+                direction = Vec3.Refract(unitDirection, rec.normal!, refractionRatio);
             }
 
-            var ray = new Ray(rec.p, direction);
+            var ray = new Ray(rec.p!, direction);
             scattered.Origin = ray.Origin;
             scattered.Direction = ray.Direction;
 

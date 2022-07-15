@@ -16,12 +16,12 @@ namespace RayTracing
 
         public bool Scatter(Ray rIn, HitRecord rec, Color attenuation, Ray scattered)
         {
-            Vec3 scatterDirection = rec.normal + Vec3.RandomUnityVector();
+            Vec3 scatterDirection = rec.normal! + Vec3.RandomUnityVector();
 
             // Catch degenerate scatter direction
-            if (scatterDirection.NearZero()) scatterDirection = rec.normal;
+            if (scatterDirection.NearZero()) scatterDirection = rec.normal!;
 
-            var ray = new Ray(rec.p, scatterDirection);
+            var ray = new Ray(rec.p!, scatterDirection);
             scattered.Origin = ray.Origin;
             scattered.Direction = ray.Direction;
 
