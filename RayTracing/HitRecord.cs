@@ -7,20 +7,13 @@ namespace RayTracing
     /// </summary>
     public class HitRecord
     {
-        public Point3 p;
-        public Vec3 normal;
+        public Point3? p;
+        public Vec3? normal;
         public IMaterial? mat;
         public double t;
         public bool frontFace;
 
-        public HitRecord()
-        {
-            p = new Point3();
-            normal = new Vec3();
-            mat = null;
-            t = 0;
-            frontFace = false;
-        }
+        public HitRecord() { }
 
         public void SetFaceNormal(Ray r, Vec3 outwardNormal)
         {
