@@ -29,14 +29,14 @@ namespace RayTracing
         public override string ToString() => $"{ X } { Y } { Z }";
 
         // Defining operators for Vec3 Class
-        public static Vec3 operator -(Vec3 v)
-        {
-            v.X = -v.X;
-            v.Y = -v.Y;
-            v.Z = -v.Z;
+        public static Vec3 operator -(Vec3 v) => new Vec3(-v.X, -v.Y, -v.Z);
+        //{
+        //    v.X = -v.X;
+        //    v.Y = -v.Y;
+        //    v.Z = -v.Z;
 
-            return v;
-        }
+        //    return v;
+        //}
 
         // Define the indexer to allow Vec3 to use [] notation => Vec3[i] = e[i]
         //public double this[int i] => e[i];
@@ -110,18 +110,6 @@ namespace RayTracing
         /// </summary>
         /// <returns></returns>
         public static Vec3 RandomUnityVector() => UnitVector(RandomInUnitySphere());
-
-        /// <summary>
-        /// Returns a random <see cref="Vec3"/> away from the hit point, with no dependence on the angle from the normal.
-        /// </summary>
-        /// <param name="normal"></param>
-        /// <returns></returns>
-        public static Vec3 RandomInHemisphere(Vec3 normal)
-        {
-            Vec3 inUnitySphere = RandomInUnitySphere();
-            if (Dot(inUnitySphere, normal) > 0.0) return inUnitySphere;    // In the same hemisphere as the normal
-            else return -inUnitySphere;
-        }
 
         /// <summary>
         /// Returns <see langword="true"/> if the <see cref="Vec3"/> is close to zero in all dimensions, <see langword="false"/> otherwise.
