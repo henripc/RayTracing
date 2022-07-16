@@ -30,16 +30,9 @@ namespace RayTracing
 
         // Defining operators for Vec3 Class
         public static Vec3 operator -(Vec3 v) => new Vec3(-v.X, -v.Y, -v.Z);
-        //{
-        //    v.X = -v.X;
-        //    v.Y = -v.Y;
-        //    v.Z = -v.Z;
 
-        //    return v;
-        //}
-
-        // Define the indexer to allow Vec3 to use [] notation => Vec3[i] = e[i]
-        //public double this[int i] => e[i];
+        // Define the indexer to allow Vec3 to use [] notation => Vec3[i] = X || Y || Z
+        public double this[int i] => i == 0 ? X : (i == 1 ? Y : Z);
 
         public static Vec3 operator +(Vec3 u, Vec3 v) => new Vec3(u.X + v.X, u.Y + v.Y, u.Z + v.Z);
         public static Vec3 operator -(Vec3 u, Vec3 v) => new Vec3(u.X - v.X, u.Y - v.Y, u.Z - v.Z);
