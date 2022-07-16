@@ -17,6 +17,8 @@ namespace RayTracing
         private readonly Vec3 _v;
         private readonly Vec3 _w;
         private readonly double _lensRadius;
+        private readonly double _time0;     // shutter open time
+        private readonly double _time1;     // shutter close time
 
         /// <summary>
         /// Instanciate a new <see cref="Camera"/> object.
@@ -29,13 +31,15 @@ namespace RayTracing
         /// <param name="aperture"></param>
         /// <param name="focusDist"></param>
         public Camera(
-            Point3 lookFrom, 
-            Point3 lookAt, 
-            Vec3 vUp, 
+            Point3 lookFrom,
+            Point3 lookAt,
+            Vec3 vUp,
             double vfov,        // vfov = vertical field-of-view in degrees
-            double aspectRatio, 
-            double aperture, 
-            double focusDist
+            double aspectRatio,
+            double aperture,
+            double focusDist,
+            double time0,
+            double time1
         )
         {
             double theta          = Utility.DegreesToRadians(vfov);
@@ -53,6 +57,8 @@ namespace RayTracing
             _lowerLeftCorner = _origin - _horizontal/2 - _vertical/2 - focusDist * _w;
 
             _lensRadius = aperture / 2;
+            _time0 = time0;
+            _time1 = time1;
         }
 
         public Ray GetRay(double s, double t)
@@ -60,7 +66,9 @@ namespace RayTracing
             Vec3 rd     = _lensRadius * Vec3.RandomInUnitDisk();
             Vec3 offSet = _u * rd.X + _v * rd.Y;
 
-            return new Ray(_origin + offSet, _lowerLeftCorner + s * _horizontal + t * _vertical - _origin - offSet);
+            return new Ray(_origin + offSet,
+                           _lowerLeftCorner + s * _horizontal + t * _vertical - _origin - offSet,
+                           Utility.RandomDouble(_time0, _time1));
         }
     }
 }
