@@ -39,7 +39,7 @@ namespace RayTracing
             bool hitAnything = false;
             var closestSoFar = tMax;
 
-            foreach (var obj in Objects)
+            foreach (IHittable obj in Objects)
             {
                 if (obj.Hit(r, tMin, closestSoFar, tempRec))
                 {
@@ -55,6 +55,37 @@ namespace RayTracing
             }
 
             return hitAnything;
+        }
+
+        public bool BoundingBox(double time0, double time1, AABB outputBox)
+        {
+            if (Objects.Count == 0)
+                return false;
+
+            var tempBox = new AABB();
+            var firstBox = true;
+
+            foreach (IHittable obj in Objects)
+            {
+                if (!obj.BoundingBox(time0, time1, tempBox))
+                    return false;
+
+                if (firstBox)
+                {
+                    outputBox.Minimum = tempBox.Minimum;
+                    outputBox.Maximum = tempBox.Maximum;
+                }
+                else
+                {
+                    AABB localBox = AABB.SurroundingBox(outputBox, tempBox);
+                    outputBox.Minimum = localBox.Minimum;
+                    outputBox.Maximum = localBox.Maximum;
+                }
+
+                firstBox = false;
+            }
+
+            return true;
         }
     }
 }
