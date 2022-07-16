@@ -14,5 +14,14 @@
         /// <param name="rec"></param>
         /// <returns>A <see cref="bool"/> indicating if the object was hit.</returns>
         bool Hit(Ray r, double tMin, double tMax, HitRecord rec);
+
+        /// <summary>
+        /// Computes the Bounding Box of the <see cref="IHittable"/> object.
+        /// </summary>
+        /// <param name="time0"></param>
+        /// <param name="time1"></param>
+        /// <param name="outputBox"></param>
+        /// <returns></returns>
+        bool BoundingBox(double time0, double time1, AABB outputBox);
     }
 }
