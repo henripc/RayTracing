@@ -40,9 +40,10 @@ namespace RayTracing
                 direction = Vec3.Refract(unitDirection, rec.normal!, refractionRatio);
             }
 
-            var ray = new Ray(rec.p!, direction);
+            var ray = new Ray(rec.p!, direction, rIn.Time);
             scattered.Origin = ray.Origin;
             scattered.Direction = ray.Direction;
+            scattered.Time = ray.Time;
 
             return true;
         }

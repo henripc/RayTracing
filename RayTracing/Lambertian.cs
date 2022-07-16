@@ -21,9 +21,10 @@ namespace RayTracing
             // Catch degenerate scatter direction
             if (scatterDirection.NearZero()) scatterDirection = rec.normal!;
 
-            var ray = new Ray(rec.p!, scatterDirection);
+            var ray = new Ray(rec.p!, scatterDirection, rIn.Time);
             scattered.Origin = ray.Origin;
             scattered.Direction = ray.Direction;
+            scattered.Time = ray.Time;
 
             attenuation.X = Albedo.X;
             attenuation.Y = Albedo.Y;

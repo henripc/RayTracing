@@ -19,9 +19,10 @@ namespace RayTracing
         public bool Scatter(Ray rIn, HitRecord rec, Color attenuation, Ray scattered)
         {
             Vec3 reflected = Vec3.Reflect(Vec3.UnitVector(rIn.Direction), rec.normal!);
-            var ray = new Ray(rec.p!, reflected + Fuzz * Vec3.RandomInUnitySphere());
+            var ray = new Ray(rec.p!, reflected + Fuzz * Vec3.RandomInUnitySphere(), rIn.Time);
             scattered.Origin = ray.Origin;
             scattered.Direction = ray.Direction;
+            scattered.Time = ray.Time;
 
             attenuation.X = Albedo.X;
             attenuation.Y = Albedo.Y;
