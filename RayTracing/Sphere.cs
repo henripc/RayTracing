@@ -16,7 +16,6 @@ namespace RayTracing
         public Sphere()
         {
             Center = new Point3(0, 0, 0);
-            Radius = 0;
             Material = null;
         }
 
@@ -51,6 +50,16 @@ namespace RayTracing
             Vec3 outwardNormal = (rec.p - Center) / Radius;
             rec.SetFaceNormal(r, outwardNormal);
             rec.mat = Material;
+
+            return true;
+        }
+
+        public bool BoundingBox(double time0, double time1, AABB outputBox)
+        {
+            var tempBox = new AABB(Center - new Vec3(Radius, Radius, Radius),
+                                   Center + new Vec3(Radius, Radius, Radius));
+            outputBox.Minimum = tempBox.Minimum;
+            outputBox.Maximum = tempBox.Maximum;
 
             return true;
         }
