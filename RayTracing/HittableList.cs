@@ -10,7 +10,7 @@ namespace RayTracing
         /// <summary>
         /// The List of <see cref="IHittable"/> objects.
         /// </summary>
-        public ICollection<IHittable> Objects { get; set; }
+        public List<IHittable> Objects { get; set; }
 
         /// <summary>
         /// Instanciate a new empty list of <see cref="IHittable"/> objects.
