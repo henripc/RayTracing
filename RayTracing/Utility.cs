@@ -60,5 +60,17 @@ namespace RayTracing
             if (x > max) return max;
             return x;
         }
+
+        /// <summary>
+        /// Returns a random <see cref="int"/> in [min, max].
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static int RandomInt(int min, int max)
+        {
+            // Returns a random integer in [min,max].
+            return (int)RandomDouble(min, max + 1);
+        }
     }
 }
