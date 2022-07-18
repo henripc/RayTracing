@@ -11,6 +11,8 @@ namespace RayTracing
         public Vec3? normal;
         public IMaterial? mat;
         public double t;
+        public double u;
+        public double v;
         public bool frontFace;
 
         public HitRecord() { }
