@@ -7,12 +7,10 @@ namespace RayTracing
     /// </summary>
     public class Lambertian : IMaterial
     {
-        public Color Albedo { get; set; }
+        public ITexture Albedo { get; set; }
 
-        public Lambertian(Color a)
-        {
-            Albedo = a;
-        }
+        public Lambertian(Color color) => Albedo = new SolidColor(color);
+        public Lambertian(ITexture a) => Albedo = a;
 
         public bool Scatter(Ray rIn, HitRecord rec, Color attenuation, Ray scattered)
         {
@@ -26,9 +24,10 @@ namespace RayTracing
             scattered.Direction = ray.Direction;
             scattered.Time = ray.Time;
 
-            attenuation.X = Albedo.X;
-            attenuation.Y = Albedo.Y;
-            attenuation.Z = Albedo.Z;
+            Color tempColor = Albedo.Value(rec.u, rec.v, rec.p!);
+            attenuation.X = tempColor.X;
+            attenuation.Y = tempColor.Y;
+            attenuation.Z = tempColor.Z;
 
             return true;
         }
