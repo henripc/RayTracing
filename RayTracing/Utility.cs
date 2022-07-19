@@ -34,13 +34,13 @@ namespace RayTracing
         public static double DegreesToRadians(double degrees) => degrees * PI / 180.0;
 
         /// <summary>
-        /// Returns a random floating-point number in [0, 1).
+        /// Returns a random double-precision floating point number in [0, 1).
         /// </summary>
         /// <returns></returns>
         public static double RandomDouble() => RandomNumber.NextDouble();
 
         /// <summary>
-        /// Returns a random floating-point number in [<paramref name="min"/>, <paramref name="max"/>).
+        /// Returns a random double-precision floating point number in [<paramref name="min"/>, <paramref name="max"/>).
         /// </summary>
         /// <param name="min"></param>
         /// <param name="max"></param>
