@@ -12,8 +12,8 @@ static HittableList RandomScene()
 {
     var world = new HittableList();
 
-    var materialGround = new Lambertian(new Color(0.5, 0.5, 0.5));
-    world.Add(new Sphere(new Point3(0, -1000, 0), 1000, materialGround));
+    var checker = new CheckerTexture(new Color(0.2, 0.3, 0.1), new Color(0.9, 0.9, 0.9));
+    world.Add(new Sphere(new Point3(0, -1000, 0), 1000, new Lambertian(checker)));
 
     for (int a = -11; a < 11; a++)
     {
@@ -31,7 +31,8 @@ static HittableList RandomScene()
                     // diffuse
                     var albedo = Color.Random() * Color.Random();
                     sphereMaterial = new Lambertian(albedo);
-                    world.Add(new Sphere(center, 0.2, sphereMaterial));
+                    var center2 = center + new Vec3(0, Utility.RandomDouble(0, 0.5), 0);
+                    world.Add(new MovingSphere(center, center2, 0d, 1d, 0.2, sphereMaterial));
                 }
                 else if (chooseMat < 0.95)
                 {
@@ -63,6 +64,30 @@ static HittableList RandomScene()
     return world;
 }
 
+static HittableList TwoSpheres()
+{
+    var objects = new HittableList();
+
+    var checker = new CheckerTexture(new Color(0.2, 0.3, 0.1), new Color(0.9, 0.9, 0.9));
+
+    objects.Add(new Sphere(new Point3(0, -10, 0), 10, new Lambertian(checker)));
+    objects.Add(new Sphere(new Point3(0, 10, 0), 10, new Lambertian(checker)));
+
+    return objects;
+}
+
+static HittableList TwoPerlinSpheres()
+{
+    var objects = new HittableList();
+
+    var perText = new NoiseTexture(4);
+
+    objects.Add(new Sphere(new Point3(0, -1000, 0), 1000, new Lambertian(perText)));
+    objects.Add(new Sphere(new Point3(0, 2, 0), 2, new Lambertian(perText)));
+
+    return objects;
+}
+
 static Color RayColor(Ray r, HittableList world, int depth)
 {
     var rec = new HitRecord();
@@ -91,23 +116,52 @@ static Color RayColor(Ray r, HittableList world, int depth)
 
 // Image
 
-const double aspectRatio  = 3.0 / 2.0;
-const int imageWidth      = 1200;
+const double aspectRatio  = 16.0 / 9.0;
+const int imageWidth      = 400;
 const int imageHeight     = (int)(imageWidth / aspectRatio);
-const int samplesPerPixel = 500;
+const int samplesPerPixel = 100;
 const int maxDepth        = 50;
 
 // World
-HittableList world = RandomScene();
+HittableList world;
+
+Point3 lookFrom;
+Point3 lookAt;
+double vFov     = 40.0;
+double aperture = 0;
+
+switch (0)
+{
+    case 1:
+        world = RandomScene();
+        lookFrom = new Point3(13, 2, 3);
+        lookAt = new Point3(0, 0, 0);
+        vFov = 20.0;
+        aperture = 0.1;
+        break;
+
+    case 2:
+        world = TwoSpheres();
+        lookFrom = new Point3(13, 2, 3);
+        lookAt = new Point3(0, 0, 0);
+        vFov = 20.0;
+        break;
+
+    default:
+    case 3:
+        world = TwoPerlinSpheres();
+        lookFrom = new Point3(13, 2, 3);
+        lookAt = new Point3(0, 0, 0);
+        vFov = 20.0;
+        break;
+}
+
 
 // Camera
-var lookFrom       = new Point3(13, 2, 3);
-var lookAt         = new Point3(0, 0, 0);
 var vUp            = new Vec3(0, 1, 0);
 double distToFocus = 10;
-double aperture    = 0.1;
 
-var cam = new Camera(lookFrom, lookAt, vUp, 20, aspectRatio, aperture, distToFocus);
+var cam = new Camera(lookFrom, lookAt, vUp, vFov, aspectRatio, aperture, distToFocus, 0d, 1d);
 
 // Render
 var stringBuilder = new StringBuilder();
@@ -135,6 +189,6 @@ for (int j = imageHeight - 1; j >= 0; j--)
     }
 }
 
-File.WriteAllText("./images/final_scene_parallel.ppm", stringBuilder.ToString());
+File.WriteAllText("./images/book2/image_10.ppm", stringBuilder.ToString());
 
 Console.Error.WriteLine("Done.");
